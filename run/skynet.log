@@ -1,0 +1,33 @@
+[:00000001] LAUNCH logger /Users/uiyiu/work/server/zServer/zServer/run/skynet.log
+[:00000002] LAUNCH snlua bootstrap
+[:00000003] LAUNCH snlua launcher
+[:00000004] LAUNCH snlua cdummy
+[:00000005] LAUNCH harbor 0 4
+[:00000006] LAUNCH snlua datacenterd
+[:00000007] LAUNCH snlua service_mgr
+[:00000008] LAUNCH snlua main
+[:00000008] init service failed: ...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:361: attempt to index a nil value (local 'p')
+stack traceback:
+	...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:361: in function 'skynet.send'
+	/Users/uiyiu/work/server/zServer/zServer/lualib/liblog.lua:5: in function 'liblog.debug'
+	/Users/uiyiu/work/server/zServer/zServer/service/main.lua:5: in local 'start'
+	...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:619: in function <...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:616>
+	[C]: in function 'xpcall'
+	...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:623: in function 'skynet.pcall'
+	...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:627: in function 'skynet.init_service'
+	...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:640: in upvalue 'f'
+	...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:104: in function <...yiu/work/server/zServer/zServer/skynet/lualib/skynet.lua:103>
+[:00000008] KILL self
+[:00000002] KILL self
+[:00000000] time diff error: change from 149701296609 to 149701296639
+[:00000000] time diff error: change from 149703484473 to 149703484541
+[:00000000] time diff error: change from 149706306401 to 149706306417
+[:00000000] time diff error: change from 149709561734 to 149709561819
+[:00000000] time diff error: change from 149711395438 to 149711395556
+[:00000000] time diff error: change from 149713764550 to 149713764607
+[:00000000] time diff error: change from 149715479671 to 149715479694
+[:00000000] time diff error: change from 149723735499 to 149723735780
+[:00000000] time diff error: change from 149725435976 to 149725435997
+[:00000000] time diff error: change from 149729950040 to 149729950151
+[:00000000] time diff error: change from 149732270322 to 149732270402
+[:00000000] time diff error: change from 149734009160 to 149734009255

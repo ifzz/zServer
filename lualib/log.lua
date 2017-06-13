@@ -5,7 +5,7 @@ local loglevel = {
     debug = 1,
     info = 2,
     warn = 3,
-    error = 4,
+    err = 4,
 }
 
 local function init_log_level()
@@ -24,8 +24,8 @@ local function init_log_level()
     end
 end
 
-local function logmsg(loglevel, msg)
-    skynet.error(msg)
+local function logmsg(loglevel, format, ...)
+    skynet.error(string.format(format, ...))
 end
 
 function logger.set_log_level(level)
@@ -38,27 +38,27 @@ function logger.set_log_level(level)
     logger._level = val
 end
 
-function logger.debug(msg)
+function logger.debug(format, ...)
     if logger._level <= loglevel.debug then
-        logmsg(loglevel.debug, msg)
+        logmsg(loglevel.debug, format, ...)
     end
 end
 
-function logger.info(msg)
+function logger.info(format, ...)
     if logger._level <= loglevel.info then
-        logmsg(loglevel.info, msg)
+        logmsg(loglevel.info, format, ...)
     end
 end
 
-function logger.warn(msg)
+function logger.warn(format, ...)
     if logger._level <= loglevel.warn then
-        logmsg(loglevel.warn, msg)
+        logmsg(loglevel.warn, format, ...)
     end
 end
 
-function logger.error(msg)
-    if logger._level <= loglevel.error then
-        logmsg(loglevel.error, msg)
+function logger.error(format, ...)
+    if logger._level <= loglevel.err then
+        logmsg(loglevel.error, format, ...)
     end
 end
 
