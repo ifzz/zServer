@@ -5,7 +5,7 @@ export SKYNET_ROOT=$ROOT/skynet
 export DAEMON=false
 
 ## echo $ROOT
-## echo $SKYNET_ROOT
+ echo $SKYNET_ROOT
 while getopts "Dk" arg
 do
 	case $arg in

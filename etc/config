@@ -21,7 +21,7 @@ nodename = "node1"
 
 luaservice	= skynet_root.."service/?.lua;"..app_root.."service/?.lua;"
 lualoader	= skynet_root.."lualib/loader.lua"
-lua_path	= skynet_root.."lualib/?.lua;"..skynet_root.."lualib/?/init.lua;"..app_root.."etc/?.lua;"..app_root.."lualib/?.lua"
+lua_path	= skynet_root.."lualib/?.lua;"..skynet_root.."lualib/compat10/?.lua;"..skynet_root.."lualib/?/init.lua;"..app_root.."etc/?.lua;"..app_root.."lualib/?.lua;"..app_root.."config/?.lua"
 lua_cpath	= skynet_root.."luaclib/?.so;"..app_root.."luaclib/?.so"
 cpath		= skynet_root.."cservice/?.so;"..app_root.."cservice/?.so"
 
