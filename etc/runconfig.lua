@@ -13,9 +13,19 @@ return {
         },
 
         db = {
+            
            db_type = "mongodb", 
            host = "127.0.0.1",
            db_name = "test",
+           dbproxy_num = 2,
         },
+
+        login_num = 2,    
+
+        watchdog = {
+            port = 8899,
+            maxclient = 1024,
+            nodelay = true,
+        }
     },
 }

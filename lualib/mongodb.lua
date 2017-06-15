@@ -55,5 +55,18 @@ function M.delete(cname, selector)
     return db_help("delete", cname, selector)
 end
 
+function M.inc(key)
+    local cname = "tb_key"
+    local ret = M.findOne(cname, {key=key}, {id=0})
+    local id = 0
+    if ret then
+        id = ret.id
+    end
+    id = id + 1
+    ret = M.update(cname, {key=key}, {id=id})
+    assert(ret)
+    return id
+end
+
 return M
 

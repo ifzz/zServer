@@ -1,57 +1,42 @@
 local skynet = require "skynet"
 local log = require "log"
-local env = require "env"
 
-local M = env.dispatch
+local runconf = require(skynet.getenv("runconfig"))
+local nodeconf = runconf[skynet.getenv("nodename")]
 
-local db = ".db"
+local MAX_LOGIN_NUM = nodeconf.login_num
 
-local id 
-local function get_id_from_db(key)
-    local ret = skynet.call(db, "lua", "findOne", key, {"id"})
-    assert(ret)
-    return ret.id
-end
+local M = {}
+local function init()
+    log.debug("init liblogin")
 
-local function update_id_to_db(key)
-    local ret = skynet.call(db, "lua", "update", key, {id=id})
-    assert(ret)
-    return ret
-end
-
-local function get_id(key)
-    if not id then
-        id = get_id_from_db(key)
+    M.login = {}
+    for i = 1, MAX_LOGIN_NUM do
+        M.login[i] = skynet.newservice("logind")
     end
-    id = id + 1
-    update_id_to_db(key)
+end
+
+local next_id = 1
+local function fetch_login()
+    next_id = next_id + 1
+    next_id = next_id % MAX_LOGIN_NUM + 1
+    return M.login[next_id]
 end
 
 function M.register(msg)
-    local account = msg.account
-    local password = msg.password
-    local ret = skynet.call(db, "lua", "findOne", "account", {"account"})
-    if ret then
-        return false
-    end
-    get_id("account_key")
-    local ret = skynet.call(db, "lua", "insert", "account", 
-                            {
-                                id=id,
-                                account=account,
-                                password=password,
-                            })
-    return true
+    local login = fetch_login()
+    assert(login)
+    return skynet.call(login, "lua", "register", msg)
 end
 
 function M.login(msg)
-    local account = msg.account
-    local password = msg.password
-    local ret = skynet.call(db, "lua", "findOne", "account")
-    if ret and ret.password == password then
-        return true, ret.id
-    end
-    return false
+    local login = fetch_login()
+    assert(login)
+    return skynet.call(login, "lua", "login", msg)
 end
+
+skynet.init(init)
+
+return M
 
 

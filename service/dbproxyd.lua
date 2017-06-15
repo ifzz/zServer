@@ -1,3 +1,3 @@
 require "service"
-require "libdb"
+require "dbproxy"
 

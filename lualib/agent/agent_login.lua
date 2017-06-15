@@ -11,11 +11,19 @@ local function load_data(cname, uid)
                                         t.dirty = true
                                         rawset(t, k, v)
                                     end})
+    return ret
 end
 
 local function load_all_data()
     local ret = {}
+    ret.player = "dump"
+    ret.item = "dump"
+    for k, v in pairs(ret) do
+        ret[k] = load_data(k, player.uid)
+    end
+    return ret
 end
+
 
 local function save_data()
     local data = player.data
@@ -35,7 +43,7 @@ function env.login(account)
                 account = account,
             }
 
-    player.data = {}
+    player.data = load_all_data()
 end
 
 
