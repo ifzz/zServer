@@ -1,26 +1,33 @@
 local skynet = require "skynet"
-local log = require "log"
-local env = require "env"
 
-local M = env.dispatch
+local MAX_CENTER_COUNT = 1
+local M = {}
 
-local players = {}
-function M.login(id, data)
-    local watchdog = data.watchdog
-    local player = players[id]
-    if player then
-        if not player.waiting then
-            player.waiting = true
-            skynet.call(player.watchdog, "lua", "close", player.fd)
-            player.waiting = false
-        end
-        return false
-    end
-    players[id] = data
-    return true
+local centers = {}
+local function init()
+   for i = 1, i < MAX_CENTER_COUNT do
+    centers[i] = skynet.newserverice("centerd")
+   end
 end
 
-function M.logout(id)
-    players[id] = nil
+local function fetch_centerd(uid)
+    local id = uid % MAX_CENTER_COUNT + 1
+    return centers[id]
 end
+
+function M.login(uid, data)
+    local centerd = fetch_centerd(uid)
+    assert(centerd)
+    return skynet.call(centerd, "lua", "login", uid, data)
+end
+
+function M.logout(uid)
+    local centerd = fetch_centerd(uid)
+    assert(centerd)
+    return skynet.call(centerd, "lua", "logout", uid)
+end
+
+skynet.init(init)
+
+return M
 

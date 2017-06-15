@@ -126,7 +126,7 @@ function update_upvalue(old_func, new_func, name, deep)
     end
     for i = 1, math.huge do
         local name, value = debug.getupvalue(new_func, i)
-        if not name then brean end
+        if not name then break end
 
         if name == "_ENV" then
             debug.setupvalue(new_func, i, _ENV)
