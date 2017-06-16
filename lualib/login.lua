@@ -2,6 +2,7 @@ local skynet = require "skynet"
 local log = require "log"
 local env = require "env"
 local dbproxy = require "libdbproxy"
+local libcenter = require "libcenter"
 
 local M = env.dispatch
 
@@ -12,10 +13,10 @@ function M.register(msg)
     if ret then
         return false
     end
-    local id = dbproxy.inc("account") 
+    local uid = dbproxy.incr("account") 
     local ret = dbproxy.insert(nil, "account", 
                             {
-                                id=id,
+                                uid=uid,
                                 account=account,
                                 password=password,
                             })
@@ -27,7 +28,17 @@ function M.login(msg)
     local password = msg.password
     local ret = dbproxy.findOne(nil, "account", {account=account})
     if ret and ret.password == password then
-        return true, ret.id
+        local uid = ret.uid
+        local data = {
+           watchdog = msg.watchdog,
+           fd = msg.fd
+        }
+
+        local ret = libcenter.login(uid, data) 
+        if ret then
+            return true, ret
+        end
+        return false
     end
     return false
 end

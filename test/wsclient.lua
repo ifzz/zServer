@@ -1,21 +1,32 @@
-package.cpath = "luaclib/?.so"
-package.path = "lualib/?.lua;examples/?.lua"
+package.cpath = "skynet/luaclib/?.so"
+package.path = "skynet/lualib/?.lua;lualib/?.lua;examples/?.lua"
 
 if _VERSION ~= "Lua 5.3" then
 	error "Use lua 5.3"
 end
 
+
 local socket = require "clientwebsocket"
-local proto = require "proto"
-local sproto = require "sproto"
+local json = require "cjson"
+local tool = require "tool"
 
-local host = sproto.new(proto.s2c):host "package"
-local request = host:attach(sproto.new(proto.c2s))
+local fd = assert(socket.connect("127.0.0.1", 8899))
 
-local fd = assert(socket.connect("127.0.0.1", 8888))
+local function request(name, args, session)
+    local t = {
+        cmd = name,
+        seq = session,
+    }
+    if type(args) == "table" then
+        for k, v in pairs(args) do
+            t[k] = v
+        end
+    end
+    local str = json.encode(t)
+    return str
+end
 
 local function send_package(fd, pack)
-	-- local package = string.pack(">s2", pack)
 	socket.send(fd, pack)
 end
 
@@ -39,34 +50,6 @@ local function send_request(name, args)
 	print("Request:", session)
 end
 
-local last = ""
-
-local function print_request(name, args)
-	print("REQUEST", name)
-	if args then
-		for k,v in pairs(args) do
-			print(k,v)
-		end
-	end
-end
-
-local function print_response(session, args)
-	print("RESPONSE", session)
-	if args then
-		for k,v in pairs(args) do
-			print(k,v)
-		end
-	end
-end
-
-local function print_package(t, ...)
-	if t == "REQUEST" then
-		print_request(...)
-	else
-		assert(t == "RESPONSE")
-		print_response(...)
-	end
-end
 
 local function dispatch_package()
 	while true do
@@ -75,13 +58,12 @@ local function dispatch_package()
 		if not v  or v == "" then
 			break
 		end
-
-		print_package(host:dispatch(v))
+        
+        print("recv: " .. tool.dump(v)) 
 	end
 end
 
-send_request("handshake")
-send_request("set", { what = "hello", value = "world, websoket" })
+send_request("login", {username="1111", password="11111"})
 while true do
 	dispatch_package()
 	local cmd = socket.readstdin()
@@ -95,3 +77,4 @@ while true do
 		socket.usleep(100)
 	end
 end
+

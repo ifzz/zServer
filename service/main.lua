@@ -1,4 +1,5 @@
 local skynet = require "skynet"
+require "skynet.manager"
 local log = require "log"
     
 local libsetup = require "libsetup"
@@ -12,7 +13,36 @@ skynet.start(function()
     skynet.uniqueservice("debug_console", nodeconf.debug_console_port)
     log.debug("start debug_console in port: " .. nodeconf.debug_console_port)
 
-<<<<<<< HEAD
+
+    log.debug("start dbproxyd...")
+    for i = 1, nodeconf.dbproxy_num do
+        local name = string.format(".dbproxyd%d", i)
+        local p = skynet.newservice("dbproxyd")
+        skynet.call(p, "lua", "start", nodeconf.db)
+        skynet.name(name, p)
+    end
+
+    log.debug("start centerd...")
+    for i = 1, nodeconf.centerd_num do
+        local name = string.format(".centerd%d", i)
+        local p = skynet.newservice("centerd")
+        skynet.name(name, p)
+    end
+
+    log.debug("start logind...")
+    for i = 1, nodeconf.login_num do 
+        local name = string.format(".logind%d", i)
+        local p = skynet.newservice("logind")
+        skynet.name(name, p)
+    end
+
+    log.debug("start agent pool...")
+    local agentname = "wsagent"
+    local maxnum = 10
+    local recyremove = 2
+    local brokecachelen = 10
+    agentpool = skynet.uniqueservice("agentpool", agentname, maxnum, recyremove, brokecachelen)
+
     local watchdogconf = nodeconf.watchdog
     local watchdog = skynet.newservice("wswatchdog")
     skynet.call(watchdog, "lua", "start", {
@@ -21,27 +51,8 @@ skynet.start(function()
         nodelay = watchdogconf.nodelay
     })
     log.debug("start wswatchdog in port: " .. watchdogconf.port) 
-=======
-    skynet.newservice("setupd")
-    log.debug("start datasheetd, and sleep 10")
-    local tool = require "tool" 
-    local str = tool.dump(libsetup.item)
-    print("=== str: " .. str)
-    print("hello world")
-    print(tool.dump(libsetup.test))
-    skynet.sleep(2000)
 
-    local str = tool.dump(libsetup.item)
-    print("=== new str: " .. str)
-  
-    --[[
-    local db = skynet.newservice("db")
-    local dbconf = nodeconf.db
-    skynet.call(db, "lua", "start", dbconf)
-    local test_data = {test="hello world"}
-    skynet.call(db, "lua", "insert", "test", test_data)
-    --]]
->>>>>>> 42a4c0f963f8a1549e7e851babfc2cc8e5aaad73
-
-    --skynet.exit()
+    skynet.exit()
 end)
+
+

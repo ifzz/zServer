@@ -25,7 +25,7 @@ $(LUA_CLIB_PATH)/websocketnetpack.so : lualib-src/lua-websocketnetpack.c | $(LUA
 	$(CC) $(CFLAGS) $(SHARED) -I$(SKYNET_BUILD_PATH)/skynet-src $^ -o $@
 
 $(LUA_CLIB_PATH)/clientwebsocket.so : lualib-src/lua-clientwebsocket.c | $(LUA_CLIB_PATH)
-	$(CC) $(CFLAGS) $(SHARED) -I$(SKYNET_BUILD_PATH)/skynet-src $^ -o $@
+	$(CC) $(CFLAGS) $(SHARED) $^ -o $@ -lpthread
 
 clean :
 	rm -f $(LUA_CLIB_PATH)/*.so

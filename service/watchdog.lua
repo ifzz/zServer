@@ -12,18 +12,33 @@ local agentpool = ...
 
 ---------------------------socket数据处理----------------------------
 local sock_handler = {}
-sock_handler.LoginReq = function (fd, msg)
+sock_handler.login = function (fd, msg)
 
-	-- 校验用户名密码、获取token
-	local token = "111"
-	SOCKET.send(fd, "LoginRsp", {account = msg.account, token = token})
+    msg.fd = fd
+    msg.watchdog = skynet.self()
 
-	agents[fd] = skynet.call(agentpool, "lua", "get")
-	skynet.call(agents[fd], "lua", "start", 
-                {gate = gate, fd = fd, watchdog = skynet.self(), account = msg.account})
-	
-	log.log("verify account %s success!", msg.account)
+    local ret = skynet.call(".login", "lua", "login", msg)
+    if ret then
+        agents[fd] = skynet.call(agentpool, "lua", "get")
+        skynet.call(agents[fd], "lua", "start", 
+                    {
+                        gate = gate, 
+                        fd = fd, 
+                        watchdog = skynet.self(), 
+                        account = ret,
+                    })
+        
+        log.log("verify account %s success!", msg.account)
+    end
+
+	SOCKET.send(fd, "login", {ret=ret})
 end
+
+sock_handler.register = function (fd, msg)
+    local ret = skynet.call(".login", "lua", "register", msg)
+	SOCKET.send(fd, "register", {ret = ret})
+end
+
 
 ------------------------ socket消息开始 -----------------------------
 function SOCKET.open(fd, addr)

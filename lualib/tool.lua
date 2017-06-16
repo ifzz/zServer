@@ -1,4 +1,3 @@
-
 local M = {}
 
 function M.dump(obj)
@@ -44,6 +43,7 @@ function M.dump(obj)
     end
     return dumpObj(obj, 0)
 end
+
 
 return M
 

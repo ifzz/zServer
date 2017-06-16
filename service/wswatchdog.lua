@@ -3,11 +3,14 @@ local log = require "log"
 local protopack = require "protopack"
 local websocket = require"websocket"
 local liblogin = require "liblogin"
+local libagentpool = require "libwsagentpool"
+local libcenter = require "libcenter"
 
 
 local gate
 local SOCKET = {}
 local agents = {}
+local uids = {}
 
 -- agent 池的名字
 local agentpool = ...
@@ -15,26 +18,40 @@ local agentpool = ...
 ---------------------------socket数据处理----------------------------
 local sock_handler = {}
 sock_handler.login = function (fd, msg)
-    local ret = liblogin.login(msg)
-    if ret then
-        agents[fd] = skynet.call(agentpool, "lua", "get")
-        skynet.call(agents[fd], "lua", "start", 
-                    {
-                        gate = gate, 
-                        fd = fd, 
-                        watchdog = skynet.self(), 
-                        account = ret,
-                    })
-        
-        log.info("verify account %s success!", msg.account)
+
+    msg.watchdog = skynet.self()
+    msg.fd = fd
+
+    local isok, account = liblogin.login(msg)
+
+    local resp = {}
+    if not isok then
+        return resp
     end
 
-	SOCKET.send(fd, "login", {ret=ret})
+    uids[fd] = account.uid
+
+    agents[fd] = libagentpool.get()
+    skynet.call(agents[fd], "lua", "start", 
+                {
+                    gate = gate, 
+                    fd = fd, 
+                    watchdog = skynet.self(), 
+                    account = account,
+                })
+    
+    log.info("verify account %s success!", msg.account)
+
+    return resp
 end
 
 sock_handler.register = function (fd, msg)
     local ret = liblogin.register(msg)
-	SOCKET.send(fd, "register", {ret = ret})
+
+    local resp = {}
+    if ret then
+    end
+    return resp
 end
 
 ------------------------ socket消息开始 -----------------------------
@@ -48,9 +65,14 @@ local function close_agent(fd)
 	agents[fd] = nil
 	if a then
 		skynet.call(gate, "lua", "kick", fd)
+        
+        libcenter.logout(uids[fd])
+        uids[fd] = nil
+
+        skynet.call(a, "lua", "disconnect")
 
         -- recycle agent
-		skynet.call(agentpool, "lua", "recycle", a)
+		libagentpool.recycle(a)
 	end
 end
 
@@ -70,9 +92,24 @@ function SOCKET.warning(fd, size)
 end
 
 function SOCKET.data(fd, data)
-	local name, msg = protopack.unpack(data)
-	print(name)
-	sock_handler[name](fd, msg)
+	local cmd, msg = protopack.unpack(data)
+    local f = sock_handler[cmd]
+    if type(f) ~= "function" then
+        log.error("sock data, fun is not exist, cmd: " .. cmd)
+        return
+    end
+
+    local isok, ret = pcall(f, fd, msg)
+    if not isok then
+        log.error("sock data, call faile, cmd: " .. cmd .. " err: " .. ret)
+        return
+    end
+
+    if ret then
+        ret.seq = msg.seq
+
+	    SOCKET.send(fd, cmd, ret)
+    end
 end
 
 function SOCKET.send(fd, cmd, msg)

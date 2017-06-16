@@ -55,7 +55,7 @@ function M.delete(cname, selector)
     return db_help("delete", cname, selector)
 end
 
-function M.inc(key)
+function M.incr(key)
     local cname = "tb_key"
     local ret = M.findOne(cname, {key=key}, {id=0})
     local id = 0

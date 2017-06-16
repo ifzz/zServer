@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local gateserver = require "wsgateserver"
+local gateserver = require "snax.wsgateserver"
 local netpack = require "websocketnetpack"
 
 local watchdog

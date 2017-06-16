@@ -5,7 +5,7 @@ local protopack = require "protopack"
 local env = require "env"
 
 require "libstring"
-require "agent_init"
+require "agent.agent_init"
 
 local CMD = {}
 
@@ -75,6 +75,8 @@ function CMD.start(conf)
 	skynet.call(gate,"lua","forward",fd)
 
     env.login(account)
+
+    skynet.error("agent login")
 end
 
 function CMD.disconnect()

@@ -4,19 +4,15 @@ local log = require "log"
 local runconf = require(skynet.getenv("runconfig"))
 local nodeconf = runconf[skynet.getenv("nodename")]
 
-local dbconf = nodeconf.db
-
-local MAX_DBPROXY_COUNT = dbconf.dbproxy_num
+local MAX_DBPROXY_COUNT = nodeconf.dbproxy_num
 
 local M = {}
 
+local dbproxy = {}
 local function init()
     log.debug("init libdbproxy")
-    M.dbproxy = {}
     for i = 1, MAX_DBPROXY_COUNT do
-        local dbproxy = skynet.newservice("dbproxyd")
-        skynet.call(dbproxy, "lua", "start", dbconf)
-        M.dbproxy[i] = dbproxy 
+        dbproxy[i] = string.format(".dbproxyd%d", i) 
     end
 end
 
@@ -24,13 +20,13 @@ local next_id = 1
 local function next_dbproxy()
     next_id = next_id + 1
     next_id = next_id % MAX_DBPROXY_COUNT + 1
-    return M.dbproxy[next_id]
+    return dbproxy[next_id]
 end
 
 local function fetch_dbproxy(key)
     if type(key) == "number" then
         local id = key % MAX_DBPROXY_COUNT + 1 
-        return M.dbproxy[id]
+        return dbproxy[id]
     else
         return next_dbproxy()
     end
@@ -66,10 +62,10 @@ function M.delete(key, cname, selector)
     return skynet.call(db, "lua", "delete", cname, selector)
 end
 
-function M.inc(key)
+function M.incr(key)
     local db = fetch_dbproxy(1)
     assert(db)
-    return skynet.call(db, "lua", "inc", key)
+    return skynet.call(db, "lua", "incr", key)
 end
 
 skynet.init(init)

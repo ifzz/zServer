@@ -16,5 +16,9 @@ skynet.start(function()
         end 
         skynet.ret(skynet.pack(ret))
     end)
+
+    if env.init then
+        env.init()
+    end
 end)
 

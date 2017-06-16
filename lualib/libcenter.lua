@@ -1,12 +1,15 @@
 local skynet = require "skynet"
+local env = require "env"
 
-local MAX_CENTER_COUNT = 1
+local runconf = require(skynet.getenv("runconfig"))
+local nodeconf = runconf[skynet.getenv("nodename")]
+
 local M = {}
 
 local centers = {}
 local function init()
-   for i = 1, i < MAX_CENTER_COUNT do
-    centers[i] = skynet.newserverice("centerd")
+   for i = 1, nodeconf.centerd_num do
+    centers[i] = string.format(".centerd%i", i)
    end
 end
 

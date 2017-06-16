@@ -7,12 +7,12 @@ local nodeconf = runconf[skynet.getenv("nodename")]
 local MAX_LOGIN_NUM = nodeconf.login_num
 
 local M = {}
+
+local login = {}
 local function init()
     log.debug("init liblogin")
-
-    M.login = {}
     for i = 1, MAX_LOGIN_NUM do
-        M.login[i] = skynet.newservice("logind")
+        login[i] = string.format(".logind%d", i)
     end
 end
 
@@ -20,7 +20,7 @@ local next_id = 1
 local function fetch_login()
     next_id = next_id + 1
     next_id = next_id % MAX_LOGIN_NUM + 1
-    return M.login[next_id]
+    return login[next_id]
 end
 
 function M.register(msg)
@@ -34,6 +34,7 @@ function M.login(msg)
     assert(login)
     return skynet.call(login, "lua", "login", msg)
 end
+
 
 skynet.init(init)
 
