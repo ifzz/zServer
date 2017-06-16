@@ -100,6 +100,11 @@ end
 
 function SOCKET.data(fd, data)
 	local cmd, msg = protopack.unpack(data)
+    if not cmd then
+        log.error("sock data, cmd is nil")
+        return
+    end
+
     local f = sock_handler[cmd]
     if type(f) ~= "function" then
         log.error("sock data, fun is not exist, cmd: " .. cmd)
