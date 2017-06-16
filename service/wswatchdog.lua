@@ -31,6 +31,8 @@ sock_handler.login = function (fd, msg)
     print("account: " .. tool.dump(account))
     uids[fd] = account.uid
 
+    print("fd: " .. fd .. " uid: " .. uids[fd])
+
     agents[fd] = libagentpool.get()
     skynet.call(agents[fd], "lua", "start", 
                 {
@@ -64,11 +66,15 @@ end
 local function close_agent(fd)
     local a = agents[fd]
 	agents[fd] = nil
+    log.info("=== close agent, fd: " .. fd)
 	if a then
 		skynet.call(gate, "lua", "kick", fd)
         
-        libcenter.logout(uids[fd])
+        local uid = uids[fd]
+        libcenter.logout(uid)
         uids[fd] = nil
+
+        log.info("=== close agent, uid: " .. uid)
 
         skynet.call(a, "lua", "disconnect")
 

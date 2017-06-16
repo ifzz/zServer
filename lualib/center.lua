@@ -12,7 +12,7 @@ function M.login(uid, data)
         users[uid] = data
         return true
     end
-    skynet.call(user.watchdog, "lua", "close", data.fd)
+    skynet.call(user.watchdog, "lua", "close", user.fd)
     user = users[uid]
     if user then
         log.debug("have login uid: " .. uid)

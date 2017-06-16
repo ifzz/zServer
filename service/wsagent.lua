@@ -15,7 +15,7 @@ local fd
 local account
 
 
-local default_dispath
+local default_dispatch
 local service_dispatch
 local dispatch
 
@@ -53,7 +53,7 @@ function dispatch(_, _, str)
     if length == 2 then
         ret = service_dispath(cmdlist[1], cmdlist[2], msg)
     elseif length == 1 then
-        ret = default_dispath(cmd, msg)
+        ret = default_dispatch(cmd, msg)
     end
     if ret then
         CMD.send(ret)
@@ -83,8 +83,6 @@ function CMD.disconnect()
 	skynet.error("agent exit!")
 
     env.logout(account)
-
-    skynet.call(watchdog, "lua", "close", fd)
 end
 
 function CMD.send(msg)
