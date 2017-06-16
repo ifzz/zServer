@@ -2,6 +2,7 @@ local skynet = require "skynet"
 local mongo = require "mongo"
 local bson = require "bson" 
 local log = require "log"
+local tool = require "tool"
 
 local M = {}
 
@@ -21,11 +22,12 @@ function M.find(cname, selector, field_selector)
 	return db[cname]:find(selector, field_selector)
 end
 
-function M.update(cname, selector, update)
+function M.update(cname, selector, update, upsert)
 	local collection = db[cname]
-	collection:update(selector, update)
+	collection:update(selector, update, upsert)
 	local r = db:runCommand("getLastError")
-	if r.err ~= bsonlib.null then
+	if r.err ~= bson.null then
+        skynet.error("update err: " .. r.err)
 		return false, r.err
 	end
 
@@ -33,7 +35,7 @@ function M.update(cname, selector, update)
 		skynet.error("mongodb update "..cname.." failed")
 	end
 
-	return ok, r.err
+	return true, r.err
 end
 
 local function db_help(cmd, cname, ...)
@@ -57,14 +59,15 @@ end
 
 function M.incr(key)
     local cname = "tb_key"
-    local ret = M.findOne(cname, {key=key}, {id=0})
+    local ret = M.findOne(cname, {key=key}, {uuid=1})
     local id = 0
     if ret then
-        id = ret.id
+        id = ret.uuid
     end
     id = id + 1
-    ret = M.update(cname, {key=key}, {id=id})
+    ret = M.update(cname, {key=key}, {key=key, uuid=id}, true)
     assert(ret)
+    assert(id)
     return id
 end
 

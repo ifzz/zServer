@@ -3,6 +3,7 @@ local log = require "log"
 local env = require "env"
 local dbproxy = require "libdbproxy"
 local libcenter = require "libcenter"
+local tool = require "tool"
 
 local M = env.dispatch
 
@@ -14,13 +15,13 @@ function M.register(msg)
         return false
     end
     local uid = dbproxy.incr("account") 
-    local ret = dbproxy.insert(nil, "account", 
-                            {
-                                uid=uid,
-                                account=account,
-                                password=password,
-                            })
-    return true
+    local data = {
+        uid = uid,
+        account = account,
+        password = password
+    }
+    local ret = dbproxy.insert(nil, "account", data) 
+    return true, data
 end
 
 function M.login(msg)
@@ -34,12 +35,19 @@ function M.login(msg)
            fd = msg.fd
         }
 
-        local ret = libcenter.login(uid, data) 
-        if ret then
+        if libcenter.login(uid, data) then
+            --print("ret: " .. tool.dump(ret))
             return true, ret
         end
         return false
     end
+
+    local ret, data = M.register(msg)
+    if ret then
+        print("test: " .. tool.dump(data))
+        return true, data
+    end
+
     return false
 end
 

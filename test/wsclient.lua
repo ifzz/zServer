@@ -63,7 +63,7 @@ local function dispatch_package()
 	end
 end
 
-send_request("login", {username="1111", password="11111"})
+send_request("login", {account="2", password="11111"})
 while true do
 	dispatch_package()
 	local cmd = socket.readstdin()

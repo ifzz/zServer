@@ -10,6 +10,7 @@ local function load_data(cname, uid)
     local ret = libdbproxy.findOne(uid, cname)
     log.debug("cname: " .. cname .. " uid:" .. uid .. " ret: " .. tool.dump(ret))
 
+    ret = ret or {}
     setmetatable(ret, {
                         __newindex = function(t, k, v)
                                         t.dirty = true

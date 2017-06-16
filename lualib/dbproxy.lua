@@ -31,3 +31,7 @@ function M.delete(cname, selector)
     return db.delete(cname, selector)
 end
 
+function M.incr(key)
+    return db.incr(key)
+end
+

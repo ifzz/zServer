@@ -6,10 +6,12 @@ local nodeconf = runconf[skynet.getenv("nodename")]
 
 local M = {}
 
+local MAX_CENTER_COUNT = nodeconf.centerd_num
+
 local centers = {}
 local function init()
-   for i = 1, nodeconf.centerd_num do
-    centers[i] = string.format(".centerd%i", i)
+   for i = 1, MAX_CENTER_COUNT do
+    centers[i] = string.format(".centerd%d", i)
    end
 end
 

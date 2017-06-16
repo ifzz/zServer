@@ -5,15 +5,13 @@ local websocket = require"websocket"
 local liblogin = require "liblogin"
 local libagentpool = require "libwsagentpool"
 local libcenter = require "libcenter"
+local tool = require "tool"
 
 
 local gate
 local SOCKET = {}
 local agents = {}
 local uids = {}
-
--- agent 池的名字
-local agentpool = ...
 
 ---------------------------socket数据处理----------------------------
 local sock_handler = {}
@@ -26,9 +24,11 @@ sock_handler.login = function (fd, msg)
 
     local resp = {}
     if not isok then
+        resp.error="login fail"
         return resp
     end
 
+    print("account: " .. tool.dump(account))
     uids[fd] = account.uid
 
     agents[fd] = libagentpool.get()
@@ -42,6 +42,7 @@ sock_handler.login = function (fd, msg)
     
     log.info("verify account %s success!", msg.account)
 
+    resp.error="login success"
     return resp
 end
 

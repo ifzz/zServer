@@ -4,17 +4,22 @@ local env = require "env"
 
 skynet.start(function()
     skynet.dispatch("lua", function(session, addr, cmd, ...)
+
+        local function ret(ok, ...)
+            if not ok then
+                skynet.ret()
+            else
+                skynet.retpack(...)
+            end
+        end
+
         local f = env.dispatch[cmd]
         if not f then
-            log.error("cmd(%s) is not found", cmd)
+            log.error("cmd(%s) is not found, %s", cmd, debug.traceback())
             return
         end
-        local ok, ret = pcall(f, ...)
-        if not ok then
-            log.error("call function(%s) fail, ret: %s", cmd, tostring(ret))
-            return
-        end 
-        skynet.ret(skynet.pack(ret))
+
+        ret(xpcall(f, debug.traceback, ...))
     end)
 
     if env.init then

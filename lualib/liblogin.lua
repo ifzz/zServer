@@ -32,7 +32,8 @@ end
 function M.login(msg)
     local login = fetch_login()
     assert(login)
-    return skynet.call(login, "lua", "login", msg)
+    local isok, account = skynet.call(login, "lua", "login", msg)
+    return isok, account
 end
 
 

@@ -1,2 +1,2 @@
 require "service"
-require "libcenter"
+require "center"
