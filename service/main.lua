@@ -13,6 +13,9 @@ skynet.start(function()
     skynet.uniqueservice("debug_console", nodeconf.debug_console_port)
     log.debug("start debug_console in port: " .. nodeconf.debug_console_port)
 
+    log.debug("start setupd...")
+    skynet.newservice("setupd")
+
     log.debug("start dbproxyd...")
     for i = 1, nodeconf.dbproxy_num do
         local name = string.format(".dbproxyd%d", i)

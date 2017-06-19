@@ -4,7 +4,7 @@ return {
 
     node1 = {
         -- 当前节点控制台监听端口
-        debug_console_port = 8801,
+        debug_console_port = 8701,
         -- agent 池配置
         agentpool = {
             name = "agent", -- 要启动缓存的 agent 文件名
@@ -24,7 +24,7 @@ return {
         login_num = 2,    
 
         watchdog = {
-            port = 8899,
+            port = 8799,
             maxclient = 1024,
             nodelay = true,
         }

@@ -13,6 +13,7 @@ function string.split(input, delimiter)
     return arr
 end
 
+
 local t = string.split("hello.world", ".")
 for k, v in pairs(t) do
     print("v: " .. v)

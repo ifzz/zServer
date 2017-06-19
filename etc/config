@@ -14,7 +14,7 @@ nodename = "node1"
 
 --logger = "logd"
 --logservice = "snlua"
---logfilename = "test"
+--logfilename = "logtest"
 --logfilemaxline = 2
 
 

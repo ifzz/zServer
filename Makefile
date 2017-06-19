@@ -14,9 +14,9 @@ LUA_STATICLIB := ./skynet/3rd/lua/liblua.a
 LUA_LIB ?= $(LUA_STATICLIB)
 LUA_INC ?= ./skynet/3rd/lua
 
-LUA_CLIB = cjson websocketnetpack clientwebsocket
+LUA_CLIB = cjson websocketnetpack clientwebsocket lfs
 
-all	: $(LUA_CLIB_PATH)/cjson.so $(LUA_CLIB_PATH)/websocketnetpack.so $(LUA_CLIB_PATH)/clientwebsocket.so
+all	: $(LUA_CLIB_PATH)/cjson.so $(LUA_CLIB_PATH)/websocketnetpack.so $(LUA_CLIB_PATH)/clientwebsocket.so $(LUA_CLIB_PATH)/lfs.so
 
 $(LUA_CLIB_PATH)/cjson.so : lua-cjson/fpconv.c lua-cjson/strbuf.c lua-cjson/lua_cjson.c | $(LUA_CLIB_PATH)
 	$(CC) $(CFLAGS) $(SHARED) -Ilua-cjson $^ -o $@
@@ -26,6 +26,9 @@ $(LUA_CLIB_PATH)/websocketnetpack.so : lualib-src/lua-websocketnetpack.c | $(LUA
 
 $(LUA_CLIB_PATH)/clientwebsocket.so : lualib-src/lua-clientwebsocket.c | $(LUA_CLIB_PATH)
 	$(CC) $(CFLAGS) $(SHARED) $^ -o $@ -lpthread
+
+$(LUA_CLIB_PATH)/lfs.so : luafilesystem/src/lfs.c | $(LUA_CLIB_PATH)
+	$(CC) $(CFLAGS) $(SHARED) -Iluafilesystem/src $^ -o $@
 
 clean :
 	rm -f $(LUA_CLIB_PATH)/*.so

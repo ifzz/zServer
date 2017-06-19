@@ -1,0 +1,282 @@
+:00000003[2017-06-19 15:59:48.00]: LAUNCH snlua launcher
+:00000004[2017-06-19 15:59:48.00]: LAUNCH snlua cdummy
+:00000005[2017-06-19 15:59:48.00]: LAUNCH harbor 0 4
+:00000006[2017-06-19 15:59:48.00]: LAUNCH snlua datacenterd
+:00000007[2017-06-19 15:59:48.00]: LAUNCH snlua service_mgr
+:00000008[2017-06-19 15:59:48.00]: LAUNCH snlua main
+:00000009[2017-06-19 15:59:48.00]: LAUNCH snlua service_provider
+:0000000a[2017-06-19 15:59:48.00]: LAUNCH snlua service_cell datasheet
+:00000008[2017-06-19 15:59:48.00]: Server start version: 1.0.0
+:0000000b[2017-06-19 15:59:48.00]: LAUNCH snlua debug_console 8701
+:0000000b[2017-06-19 15:59:48.01]: Start debug console at 127.0.0.1:8701
+:00000008[2017-06-19 15:59:48.01]: start debug_console in port: 8701
+:00000008[2017-06-19 15:59:48.01]: start setupd...
+:0000000c[2017-06-19 15:59:48.01]: LAUNCH snlua setupd
+:0000000c[2017-06-19 15:59:48.01]: init test conf
+:0000000c[2017-06-19 15:59:48.01]: init item conf
+:00000008[2017-06-19 15:59:48.01]: start dbproxyd...
+:0000000d[2017-06-19 15:59:48.01]: LAUNCH snlua dbproxyd
+:0000000d[2017-06-19 15:59:48.02]: Connect to 127.0.0.1:27017 failed (Connection refused)
+:0000000e[2017-06-19 15:59:48.02]: LAUNCH snlua dbproxyd
+:0000000e[2017-06-19 15:59:48.02]: Connect to 127.0.0.1:27017 failed (Connection refused)
+:00000008[2017-06-19 15:59:48.02]: start centerd...
+:0000000f[2017-06-19 15:59:48.02]: LAUNCH snlua centerd
+:00000010[2017-06-19 15:59:48.02]: LAUNCH snlua centerd
+:00000008[2017-06-19 15:59:48.02]: start logind...
+:00000011[2017-06-19 15:59:48.02]: LAUNCH snlua logind
+:00000011[2017-06-19 15:59:48.02]: init libdbproxy
+:00000012[2017-06-19 15:59:48.02]: LAUNCH snlua logind
+:00000012[2017-06-19 15:59:48.02]: init libdbproxy
+:00000008[2017-06-19 15:59:48.02]: start agent pool...
+:00000013[2017-06-19 15:59:48.02]: LAUNCH snlua agentpool wsagent 10 2 10
+:00000014[2017-06-19 15:59:48.02]: LAUNCH snlua wsagent 10
+:00000014[2017-06-19 15:59:48.02]: init libdbproxy
+:00000015[2017-06-19 15:59:48.02]: LAUNCH snlua wsagent 10
+:00000015[2017-06-19 15:59:48.02]: init libdbproxy
+:00000016[2017-06-19 15:59:48.02]: LAUNCH snlua wsagent 10
+:00000016[2017-06-19 15:59:48.02]: init libdbproxy
+:00000017[2017-06-19 15:59:48.02]: LAUNCH snlua wsagent 10
+:00000017[2017-06-19 15:59:48.02]: init libdbproxy
+:00000018[2017-06-19 15:59:48.02]: LAUNCH snlua wsagent 10
+:00000018[2017-06-19 15:59:48.02]: init libdbproxy
+:00000019[2017-06-19 15:59:48.02]: LAUNCH snlua wsagent 10
+:00000019[2017-06-19 15:59:48.02]: init libdbproxy
+:0000001a[2017-06-19 15:59:48.03]: LAUNCH snlua wsagent 10
+:0000001a[2017-06-19 15:59:48.03]: init libdbproxy
+:0000001b[2017-06-19 15:59:48.03]: LAUNCH snlua wsagent 10
+:0000001b[2017-06-19 15:59:48.03]: init libdbproxy
+:0000001c[2017-06-19 15:59:48.03]: LAUNCH snlua wsagent 10
+:0000001c[2017-06-19 15:59:48.03]: init libdbproxy
+:0000001d[2017-06-19 15:59:48.03]: LAUNCH snlua wsagent 10
+:0000001d[2017-06-19 15:59:48.03]: init libdbproxy
+:0000001e[2017-06-19 15:59:48.03]: LAUNCH snlua wswatchdog
+:0000001e[2017-06-19 15:59:48.03]: init liblogin
+:0000001f[2017-06-19 15:59:48.03]: LAUNCH snlua wsgate
+:0000001f[2017-06-19 15:59:48.03]: Listen on 0.0.0.0:8799
+:00000008[2017-06-19 15:59:48.03]: start wswatchdog in port: 8799
+:00000008[2017-06-19 15:59:48.03]: KILL self
+:00000002[2017-06-19 15:59:48.03]: KILL self
+:00000003[2017-06-19 16:02:09.89]: LAUNCH snlua launcher
+:00000004[2017-06-19 16:02:09.89]: LAUNCH snlua cdummy
+:00000005[2017-06-19 16:02:09.89]: LAUNCH harbor 0 4
+:00000006[2017-06-19 16:02:09.89]: LAUNCH snlua datacenterd
+:00000007[2017-06-19 16:02:09.89]: LAUNCH snlua service_mgr
+:00000008[2017-06-19 16:02:09.89]: LAUNCH snlua main
+:00000009[2017-06-19 16:02:09.89]: LAUNCH snlua service_provider
+:0000000a[2017-06-19 16:02:09.89]: LAUNCH snlua service_cell datasheet
+:00000008[2017-06-19 16:02:09.09]: Server start version: 1.0.0
+:0000000b[2017-06-19 16:02:09.09]: LAUNCH snlua debug_console 8701
+:0000000b[2017-06-19 16:02:09.09]: Start debug console at 127.0.0.1:8701
+:00000008[2017-06-19 16:02:09.91]: start debug_console in port: 8701
+:00000008[2017-06-19 16:02:09.91]: start setupd...
+:0000000c[2017-06-19 16:02:09.91]: LAUNCH snlua setupd
+:0000000c[2017-06-19 16:02:09.91]: init test conf
+:0000000c[2017-06-19 16:02:09.91]: init item conf
+:00000008[2017-06-19 16:02:09.91]: start dbproxyd...
+:0000000d[2017-06-19 16:02:09.91]: LAUNCH snlua dbproxyd
+:0000000e[2017-06-19 16:02:09.91]: LAUNCH snlua dbproxyd
+:00000008[2017-06-19 16:02:09.91]: start centerd...
+:0000000f[2017-06-19 16:02:09.91]: LAUNCH snlua centerd
+:00000010[2017-06-19 16:02:09.91]: LAUNCH snlua centerd
+:00000008[2017-06-19 16:02:09.91]: start logind...
+:00000011[2017-06-19 16:02:09.91]: LAUNCH snlua logind
+:00000011[2017-06-19 16:02:09.91]: init libdbproxy
+:00000012[2017-06-19 16:02:09.91]: LAUNCH snlua logind
+:00000012[2017-06-19 16:02:09.91]: init libdbproxy
+:00000008[2017-06-19 16:02:09.91]: start agent pool...
+:00000013[2017-06-19 16:02:09.91]: LAUNCH snlua agentpool wsagent 10 2 10
+:00000014[2017-06-19 16:02:09.91]: LAUNCH snlua wsagent 10
+:00000014[2017-06-19 16:02:09.91]: init libdbproxy
+:00000015[2017-06-19 16:02:09.91]: LAUNCH snlua wsagent 10
+:00000015[2017-06-19 16:02:09.91]: init libdbproxy
+:00000016[2017-06-19 16:02:09.91]: LAUNCH snlua wsagent 10
+:00000016[2017-06-19 16:02:09.91]: init libdbproxy
+:00000017[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:00000017[2017-06-19 16:02:09.92]: init libdbproxy
+:00000018[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:00000018[2017-06-19 16:02:09.92]: init libdbproxy
+:00000019[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:00000019[2017-06-19 16:02:09.92]: init libdbproxy
+:0000001a[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:0000001a[2017-06-19 16:02:09.92]: init libdbproxy
+:0000001b[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:0000001b[2017-06-19 16:02:09.92]: init libdbproxy
+:0000001c[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:0000001c[2017-06-19 16:02:09.92]: init libdbproxy
+:0000001d[2017-06-19 16:02:09.92]: LAUNCH snlua wsagent 10
+:0000001d[2017-06-19 16:02:09.92]: init libdbproxy
+:0000001e[2017-06-19 16:02:09.92]: LAUNCH snlua wswatchdog
+:0000001e[2017-06-19 16:02:09.92]: init liblogin
+:0000001f[2017-06-19 16:02:09.92]: LAUNCH snlua wsgate
+:0000001f[2017-06-19 16:02:09.92]: Listen on 0.0.0.0:8799
+:00000008[2017-06-19 16:02:09.92]: start wswatchdog in port: 8799
+:00000008[2017-06-19 16:02:09.92]: KILL self
+:00000002[2017-06-19 16:02:09.92]: KILL self
+:00000003[2017-06-19 16:02:18.33]: LAUNCH snlua launcher
+:00000004[2017-06-19 16:02:18.33]: LAUNCH snlua cdummy
+:00000005[2017-06-19 16:02:18.33]: LAUNCH harbor 0 4
+:00000006[2017-06-19 16:02:18.33]: LAUNCH snlua datacenterd
+:00000007[2017-06-19 16:02:18.33]: LAUNCH snlua service_mgr
+:00000008[2017-06-19 16:02:18.33]: LAUNCH snlua main
+:00000009[2017-06-19 16:02:18.35]: LAUNCH snlua service_provider
+:0000000a[2017-06-19 16:02:18.35]: LAUNCH snlua service_cell datasheet
+:00000008[2017-06-19 16:02:18.35]: Server start version: 1.0.0
+:0000000b[2017-06-19 16:02:18.35]: LAUNCH snlua debug_console 8701
+:0000000b[2017-06-19 16:02:18.35]: Start debug console at 127.0.0.1:8701
+:00000008[2017-06-19 16:02:18.36]: start debug_console in port: 8701
+:00000008[2017-06-19 16:02:18.36]: start setupd...
+:0000000c[2017-06-19 16:02:18.36]: LAUNCH snlua setupd
+:0000000c[2017-06-19 16:02:18.36]: init test conf
+:0000000c[2017-06-19 16:02:18.36]: init item conf
+:00000008[2017-06-19 16:02:18.36]: start dbproxyd...
+:0000000d[2017-06-19 16:02:18.36]: LAUNCH snlua dbproxyd
+:0000000e[2017-06-19 16:02:18.36]: LAUNCH snlua dbproxyd
+:00000008[2017-06-19 16:02:18.37]: start centerd...
+:0000000f[2017-06-19 16:02:18.37]: LAUNCH snlua centerd
+:00000010[2017-06-19 16:02:18.37]: LAUNCH snlua centerd
+:00000008[2017-06-19 16:02:18.37]: start logind...
+:00000011[2017-06-19 16:02:18.37]: LAUNCH snlua logind
+:00000011[2017-06-19 16:02:18.37]: init libdbproxy
+:00000012[2017-06-19 16:02:18.37]: LAUNCH snlua logind
+:00000012[2017-06-19 16:02:18.37]: init libdbproxy
+:00000008[2017-06-19 16:02:18.37]: start agent pool...
+:00000013[2017-06-19 16:02:18.37]: LAUNCH snlua agentpool wsagent 10 2 10
+:00000014[2017-06-19 16:02:18.37]: LAUNCH snlua wsagent 10
+:00000014[2017-06-19 16:02:18.37]: init libdbproxy
+:00000015[2017-06-19 16:02:18.37]: LAUNCH snlua wsagent 10
+:00000015[2017-06-19 16:02:18.37]: init libdbproxy
+:00000016[2017-06-19 16:02:18.37]: LAUNCH snlua wsagent 10
+:00000016[2017-06-19 16:02:18.37]: init libdbproxy
+:00000017[2017-06-19 16:02:18.37]: LAUNCH snlua wsagent 10
+:00000017[2017-06-19 16:02:18.37]: init libdbproxy
+:00000018[2017-06-19 16:02:18.38]: LAUNCH snlua wsagent 10
+:00000018[2017-06-19 16:02:18.38]: init libdbproxy
+:00000019[2017-06-19 16:02:18.38]: LAUNCH snlua wsagent 10
+:00000019[2017-06-19 16:02:18.38]: init libdbproxy
+:0000001a[2017-06-19 16:02:18.38]: LAUNCH snlua wsagent 10
+:0000001a[2017-06-19 16:02:18.38]: init libdbproxy
+:0000001b[2017-06-19 16:02:18.38]: LAUNCH snlua wsagent 10
+:0000001b[2017-06-19 16:02:18.38]: init libdbproxy
+:0000001c[2017-06-19 16:02:18.38]: LAUNCH snlua wsagent 10
+:0000001c[2017-06-19 16:02:18.38]: init libdbproxy
+:0000001d[2017-06-19 16:02:18.38]: LAUNCH snlua wsagent 10
+:0000001d[2017-06-19 16:02:18.38]: init libdbproxy
+:0000001e[2017-06-19 16:02:18.38]: LAUNCH snlua wswatchdog
+:0000001e[2017-06-19 16:02:18.38]: init liblogin
+:0000001f[2017-06-19 16:02:18.39]: LAUNCH snlua wsgate
+:0000001f[2017-06-19 16:02:18.39]: Listen on 0.0.0.0:8799
+:00000008[2017-06-19 16:02:18.39]: start wswatchdog in port: 8799
+:00000008[2017-06-19 16:02:18.39]: KILL self
+:00000002[2017-06-19 16:02:18.39]: KILL self
+:00000003[2017-06-19 16:02:30.88]: LAUNCH snlua launcher
+:00000004[2017-06-19 16:02:30.88]: LAUNCH snlua cdummy
+:00000005[2017-06-19 16:02:30.88]: LAUNCH harbor 0 4
+:00000006[2017-06-19 16:02:30.88]: LAUNCH snlua datacenterd
+:00000007[2017-06-19 16:02:30.88]: LAUNCH snlua service_mgr
+:00000008[2017-06-19 16:02:30.88]: LAUNCH snlua main
+:00000009[2017-06-19 16:02:30.88]: LAUNCH snlua service_provider
+:0000000a[2017-06-19 16:02:30.88]: LAUNCH snlua service_cell datasheet
+:00000008[2017-06-19 16:02:30.88]: Server start version: 1.0.0
+:0000000b[2017-06-19 16:02:30.88]: LAUNCH snlua debug_console 8701
+:0000000b[2017-06-19 16:02:30.89]: Start debug console at 127.0.0.1:8701
+:00000008[2017-06-19 16:02:30.89]: start debug_console in port: 8701
+:00000008[2017-06-19 16:02:30.89]: start setupd...
+:0000000c[2017-06-19 16:02:30.89]: LAUNCH snlua setupd
+:0000000c[2017-06-19 16:02:30.89]: init test conf
+:0000000c[2017-06-19 16:02:30.89]: init item conf
+:00000008[2017-06-19 16:02:30.89]: start dbproxyd...
+:0000000d[2017-06-19 16:02:30.89]: LAUNCH snlua dbproxyd
+:0000000e[2017-06-19 16:02:30.09]: LAUNCH snlua dbproxyd
+:00000008[2017-06-19 16:02:30.09]: start centerd...
+:0000000f[2017-06-19 16:02:30.09]: LAUNCH snlua centerd
+:00000010[2017-06-19 16:02:30.09]: LAUNCH snlua centerd
+:00000008[2017-06-19 16:02:30.09]: start logind...
+:00000011[2017-06-19 16:02:30.09]: LAUNCH snlua logind
+:00000011[2017-06-19 16:02:30.09]: init libdbproxy
+:00000012[2017-06-19 16:02:30.09]: LAUNCH snlua logind
+:00000012[2017-06-19 16:02:30.09]: init libdbproxy
+:00000008[2017-06-19 16:02:30.09]: start agent pool...
+:00000013[2017-06-19 16:02:30.09]: LAUNCH snlua agentpool wsagent 10 2 10
+:00000014[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:00000014[2017-06-19 16:02:30.09]: init libdbproxy
+:00000015[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:00000015[2017-06-19 16:02:30.09]: init libdbproxy
+:00000016[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:00000016[2017-06-19 16:02:30.09]: init libdbproxy
+:00000017[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:00000017[2017-06-19 16:02:30.09]: init libdbproxy
+:00000018[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:00000018[2017-06-19 16:02:30.09]: init libdbproxy
+:00000019[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:00000019[2017-06-19 16:02:30.09]: init libdbproxy
+:0000001a[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:0000001a[2017-06-19 16:02:30.09]: init libdbproxy
+:0000001b[2017-06-19 16:02:30.09]: LAUNCH snlua wsagent 10
+:0000001b[2017-06-19 16:02:30.09]: init libdbproxy
+:0000001c[2017-06-19 16:02:30.91]: LAUNCH snlua wsagent 10
+:0000001c[2017-06-19 16:02:30.91]: init libdbproxy
+:0000001d[2017-06-19 16:02:30.91]: LAUNCH snlua wsagent 10
+:0000001d[2017-06-19 16:02:30.91]: init libdbproxy
+:0000001e[2017-06-19 16:02:30.91]: LAUNCH snlua wswatchdog
+:0000001e[2017-06-19 16:02:30.91]: init liblogin
+:0000001f[2017-06-19 16:02:30.91]: LAUNCH snlua wsgate
+:0000001f[2017-06-19 16:02:30.91]: Listen on 0.0.0.0:8799
+:00000008[2017-06-19 16:02:30.91]: start wswatchdog in port: 8799
+:00000008[2017-06-19 16:02:30.91]: KILL self
+:00000002[2017-06-19 16:02:30.91]: KILL self
+:00000003[2017-06-19 16:02:49.18]: LAUNCH snlua launcher
+:00000004[2017-06-19 16:02:49.18]: LAUNCH snlua cdummy
+:00000005[2017-06-19 16:02:49.18]: LAUNCH harbor 0 4
+:00000006[2017-06-19 16:02:49.18]: LAUNCH snlua datacenterd
+:00000007[2017-06-19 16:02:49.18]: LAUNCH snlua service_mgr
+:00000008[2017-06-19 16:02:49.18]: LAUNCH snlua main
+:00000009[2017-06-19 16:02:49.18]: LAUNCH snlua service_provider
+:0000000a[2017-06-19 16:02:49.18]: LAUNCH snlua service_cell datasheet
+:00000008[2017-06-19 16:02:49.18]: Server start version: 1.0.0
+:0000000b[2017-06-19 16:02:49.18]: LAUNCH snlua debug_console 8701
+:0000000b[2017-06-19 16:02:49.19]: Start debug console at 127.0.0.1:8701
+:00000008[2017-06-19 16:02:49.19]: start debug_console in port: 8701
+:00000008[2017-06-19 16:02:49.19]: start setupd...
+:0000000c[2017-06-19 16:02:49.19]: LAUNCH snlua setupd
+:0000000c[2017-06-19 16:02:49.19]: init test conf
+:0000000c[2017-06-19 16:02:49.19]: init item conf
+:00000008[2017-06-19 16:02:49.19]: start dbproxyd...
+:0000000d[2017-06-19 16:02:49.19]: LAUNCH snlua dbproxyd
+:0000000e[2017-06-19 16:02:49.02]: LAUNCH snlua dbproxyd
+:00000008[2017-06-19 16:02:49.02]: start centerd...
+:0000000f[2017-06-19 16:02:49.02]: LAUNCH snlua centerd
+:00000010[2017-06-19 16:02:49.02]: LAUNCH snlua centerd
+:00000008[2017-06-19 16:02:49.02]: start logind...
+:00000011[2017-06-19 16:02:49.02]: LAUNCH snlua logind
+:00000011[2017-06-19 16:02:49.02]: init libdbproxy
+:00000012[2017-06-19 16:02:49.02]: LAUNCH snlua logind
+:00000012[2017-06-19 16:02:49.02]: init libdbproxy
+:00000008[2017-06-19 16:02:49.02]: start agent pool...
+:00000013[2017-06-19 16:02:49.02]: LAUNCH snlua agentpool wsagent 10 2 10
+:00000014[2017-06-19 16:02:49.02]: LAUNCH snlua wsagent 10
+:00000014[2017-06-19 16:02:49.02]: init libdbproxy
+:00000015[2017-06-19 16:02:49.02]: LAUNCH snlua wsagent 10
+:00000015[2017-06-19 16:02:49.02]: init libdbproxy
+:00000016[2017-06-19 16:02:49.02]: LAUNCH snlua wsagent 10
+:00000016[2017-06-19 16:02:49.02]: init libdbproxy
+:00000017[2017-06-19 16:02:49.02]: LAUNCH snlua wsagent 10
+:00000017[2017-06-19 16:02:49.02]: init libdbproxy
+:00000018[2017-06-19 16:02:49.02]: LAUNCH snlua wsagent 10
+:00000018[2017-06-19 16:02:49.02]: init libdbproxy
+:00000019[2017-06-19 16:02:49.02]: LAUNCH snlua wsagent 10
+:00000019[2017-06-19 16:02:49.22]: init libdbproxy
+:0000001a[2017-06-19 16:02:49.22]: LAUNCH snlua wsagent 10
+:0000001a[2017-06-19 16:02:49.22]: init libdbproxy
+:0000001b[2017-06-19 16:02:49.22]: LAUNCH snlua wsagent 10
+:0000001b[2017-06-19 16:02:49.22]: init libdbproxy
+:0000001c[2017-06-19 16:02:49.22]: LAUNCH snlua wsagent 10
+:0000001c[2017-06-19 16:02:49.22]: init libdbproxy
+:0000001d[2017-06-19 16:02:49.22]: LAUNCH snlua wsagent 10
+:0000001d[2017-06-19 16:02:49.22]: init libdbproxy
+:0000001e[2017-06-19 16:02:49.22]: LAUNCH snlua wswatchdog
+:0000001e[2017-06-19 16:02:49.22]: init liblogin
+:0000001f[2017-06-19 16:02:49.22]: LAUNCH snlua wsgate
+:0000001f[2017-06-19 16:02:49.22]: Listen on 0.0.0.0:8799
+:00000008[2017-06-19 16:02:49.22]: start wswatchdog in port: 8799
+:00000008[2017-06-19 16:02:49.22]: KILL self
+:00000002[2017-06-19 16:02:49.22]: KILL self
