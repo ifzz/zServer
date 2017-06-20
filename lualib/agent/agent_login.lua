@@ -6,11 +6,27 @@ local tool = require "tool"
 
 local player = {}
 
+local InitPlayerCMD = {}
+function InitPlayerCMD.init_player_data()
+    local ret = {}
+    local now = os.time()
+    ret.login_time = now
+    ret.register_time = now
+    return ret
+end
+
+local function get_init_data(cname)
+    local funname = string.format("init_%s_data", cname)
+    local func = InitPlayerCMD[funname]
+    assert(type(func) == "function")
+    return func()
+end
+
 local function load_data(cname, uid)
     local ret = libdbproxy.findOne(uid, cname)
     log.debug("cname: " .. cname .. " uid:" .. uid .. " ret: " .. tool.dump(ret))
 
-    ret = ret or {}
+    ret = ret or get_init_data(cname)
     setmetatable(ret, {
                         __newindex = function(t, k, v)
                                         t.dirty = true
@@ -21,8 +37,7 @@ end
 
 local function load_all_data()
     local ret = {}
-    ret.player = "dump"
-    ret.item = "dump"
+    ret.player = true
     for k, v in pairs(ret) do
         ret[k] = load_data(k, player.uid)
     end
