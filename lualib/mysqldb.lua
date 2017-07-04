@@ -34,7 +34,7 @@ function M.start(conf)
 		log.error("failed to connect conf: %s", tool.dump(conf))
         return false
 	end
-	log.debug("testmysql success to connect to mysql server")
+	log.debug("mysql success to connect to mysql server")
     return true
 end
 
@@ -45,9 +45,20 @@ function get_table_desc(cname)
     end
 
     local sql = string.format("desc %s", cname)
-    local res = db.query(sql)
-    table_desc[cname] = res
-    return res
+    local ret = db:query(sql)
+
+    if ret.errno then
+        log.error("desc ret: %s", tool.dump(ret))
+        return
+    end
+
+    log.error("desc ret: %s", tool.dump(ret))
+    desc = {}
+    for k, v in pairs(ret) do
+        desc[v.Field] = true
+    end
+    table_desc[cname] = desc
+    return ret
 end
 
 local function build_selector(selector)
@@ -112,7 +123,43 @@ function M.find(cname, selector, field_selector)
     return ret
 end
 
+function M.alter(cname, selector)
+    local desc = get_table_desc(cname)
+    if not desc then
+        return
+    end
+
+    local t = nil
+    for k, v in pairs(selector) do
+         if type(k) == "string" then
+            if not desc[k] then
+                t = t or {}
+                if type(v) == "string" then
+                    table.insert(t, string.format("add %s CHAR(100)", k))
+                elseif type(v) == "number" then
+                    table.insert(t, string.format("add %s INT", k))
+                elseif type(v) == "table" then
+                    table.insert(t, string.format("add %s VARCHAR(1024)", k))
+                end
+            end
+        end
+    end
+    if not t then
+        return
+    end
+
+    local str = table.concat(t, ",")
+    local sql = string.format("alter table %s %s", cname, str)
+    log.debug("sql: " .. sql)
+    local ret = db:query(sql)
+    log.debug("alter ret: " .. tool.dump(ret))
+    return ret
+end
+
+
 function M.update(cname, selector, field_selector)
+    M.alter(cname, selector)
+
     local selector_str = build_selector(selector)
     local field_selector_str = build_selector(field_selector)
 
@@ -126,18 +173,16 @@ local function build_insert_data(data)
     local value = {}
     for k, v in pairs(data) do
         if type(k) == "string" then
-            table.insert(field, mysql.quote_sql_str(k))
-        elseif type(k) == "number" then
             table.insert(field, k)
         end
 
         if type(v) == "string" then
-            table.insert(value, mysql.quote_sql_str(v))
+            table.insert(value, string.format("%s", mysql.quote_sql_str(v)))
         elseif type(v) == "number" then
             table.insert(value, v)
         elseif type(v) == "table" then
             local str = json.encode(v)
-            table.insert(value, mysql.quote_sql_str(str))
+            table.insert(value, string.format("%s", mysql.quote_sql_str(str)))
         end
     end
     local field_str = table.concat(field, ",")
@@ -145,10 +190,64 @@ local function build_insert_data(data)
     return field_str, value_str
 end
 
-function M.insert(cname, data)
-    local field_str, value_str = build_insert_data(data)
-    local sql = string.format("insert into %s(%s)values(%s)", cname, field_selector_str, value_str)
+function M.create_table(cname, data)
+    assert(type(data) == "table")
+
+    local t = {}
+ 
+    for k, v in pairs(data) do
+       if type(v) == "string" then
+           table.insert(t, string.format("%s char(100) NOT NULL", k))
+       elseif type(v) == "number" then
+           table.insert(t, string.format("%s int", k))
+       elseif type(v) == "table" then
+           table.insert(t, string.format("%s varchar(1024)", k))
+       end
+    end
+
+    if not data.id then
+        table.insert(t, "id INT NOT NULL AUTO_INCREMENT")
+    end
+
+    table.insert(t, "PRIMARY KEY(id)") 
+    local str = table.concat(t, ",")
+
+    local sql = string.format("create table if not exists %s(%s)ENGINE=InnoDB DEFAULT CHARSET=utf8;",cname,str)
+
+    log.debug("sql: " .. sql)
+
     local ret = db:query(sql)
+
+    log.debug("create table ret: " .. tool.dump(ret))
+    return ret
+end
+
+function M.insert(cname, data)
+
+    if not get_table_desc(cname) then
+        M.create_table(cname, data)
+    end
+
+    local field_str, value_str = build_insert_data(data)
+    local sql = string.format("insert into %s(%s)values(%s)", cname, field_str, value_str)
+    local ret = db:query(sql)
+    return ret
+end
+
+function M.replace(cname, data)
+    if not get_table_desc(cname) then
+        M.create_table(cname, data)
+    end
+
+
+    M.alter(cname, data)
+
+    local field_str, value_str = build_insert_data(data)
+    local sql = string.format("replace into %s(%s)values(%s)", cname, field_str, value_str)
+    log.debug("sql: " .. sql)
+    local ret = db:query(sql)
+
+    log.debug("ret: " .. tool.dump(ret))
     return ret
 end
 

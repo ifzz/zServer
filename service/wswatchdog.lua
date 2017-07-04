@@ -2,6 +2,7 @@ local skynet = require "skynet"
 local log = require "log"
 local protopack = require "protopack"
 local websocket = require"websocket"
+
 local liblogin = require "liblogin"
 local libagentpool = require "libwsagentpool"
 local libcenter = require "libcenter"
@@ -24,14 +25,11 @@ sock_handler.login = function (fd, msg)
 
     local resp = {}
     if not isok then
-        resp.error="login fail"
+        resp.error = "login fail"
         return resp
     end
 
-    print("account: " .. tool.dump(account))
     uids[fd] = account.uid
-
-    print("fd: " .. fd .. " uid: " .. uids[fd])
 
     agents[fd] = libagentpool.get()
     skynet.call(agents[fd], "lua", "start", 
@@ -44,7 +42,7 @@ sock_handler.login = function (fd, msg)
     
     log.info("verify account %s success!", msg.account)
 
-    resp.error="login success"
+    resp.error = "login success"
     return resp
 end
 

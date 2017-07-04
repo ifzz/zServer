@@ -51,7 +51,7 @@ function dispatch(_, _, str)
     local length = #cmdlist
     local ret
     if length == 2 then
-        ret = service_dispath(cmdlist[1], cmdlist[2], msg)
+        ret = service_dispatch(cmdlist[1], cmdlist[2], msg)
     elseif length == 1 then
         ret = default_dispatch(cmd, msg)
     end

@@ -2,8 +2,6 @@ local skynet = require "skynet"
 require "skynet.manager"
 local log = require "log"
     
-local libsetup = require "libsetup"
-
 local runconf = require(skynet.getenv("runconfig"))
 local nodeconf = runconf[skynet.getenv("nodename")]
 
@@ -53,6 +51,8 @@ skynet.start(function()
         nodelay = watchdogconf.nodelay
     })
     log.debug("start wswatchdog in port: " .. watchdogconf.port) 
+
+    skynet.newservice("testd")
 
     skynet.exit()
 end)

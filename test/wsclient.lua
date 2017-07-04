@@ -1,5 +1,5 @@
-package.cpath = "skynet/luaclib/?.so"
-package.path = "skynet/lualib/?.lua;lualib/?.lua;examples/?.lua"
+package.cpath = "../skynet/luaclib/?.so"
+package.path = "../skynet/lualib/?.lua;../lualib/?.lua;../examples/?.lua"
 
 if _VERSION ~= "Lua 5.3" then
 	error "Use lua 5.3"
@@ -10,7 +10,7 @@ local socket = require "clientwebsocket"
 local json = require "cjson"
 local tool = require "tool"
 
-local fd = assert(socket.connect("127.0.0.1", 8899))
+local fd = assert(socket.connect("127.0.0.1", 8799))
 
 local function request(name, args, session)
     local t = {
