@@ -48,15 +48,17 @@ function get_table_desc(cname)
     local ret = db:query(sql)
 
     if ret.errno then
-        log.error("desc ret: %s", tool.dump(ret))
+        log.error("desc ret: %s, sql: %s", tool.dump(ret), sql)
         return
     end
 
     log.error("desc ret: %s", tool.dump(ret))
     desc = {}
     for k, v in pairs(ret) do
-        desc[v.Field] = true
+        desc[v.Field] = string.match(v.Type, "(%w+)%(%w+%)")
     end
+
+    log.error("desc : %s", tool.dump(desc))
     table_desc[cname] = desc
     return ret
 end
@@ -66,7 +68,7 @@ local function build_selector(selector)
     for k, v in pairs(selector) do
         if type(k) == "string" then
             if type(v) == "string" then
-                table.insert(t, string.format("%s = '%s'", k, mysql.quote_sql_str(v)))
+                table.insert(t, string.format("%s = %s", k, mysql.quote_sql_str(v)))
             elseif type(v) == "number" then
                 table.insert(t, string.format("%s = %d", k, v))
             end
@@ -92,10 +94,14 @@ local function build_find_data(cname, data)
     end
 
     for k, v in pairs(desc) do
-        if v == "VARCHAR" then
-            local str = data[k]
-            local t = json.decode(str)
-            data[k] = t
+        if v == "varchar" then
+            for kk, vv in pairs(data) do
+                local str = vv[k]
+                if str then
+                    local t = json.decode(str)
+                    vv[k] = t
+                end
+            end
         end
     end
     return data
@@ -103,12 +109,15 @@ end
 
 function M.findOne(cname, selector, field_selector)
     local selector_str = build_selector(selector)
-    local field_selector_str = build_selector(field_selector)
+    local field_selector_str = build_field_selector(field_selector)
 
     local sql = string.format("select %s from %s where %s limit 1", field_selector_str, cname, selector_str)
+    log.debug("sql: %s", sql)
     local ret = db:query(sql)
-    ret = build_find_data(ret)
-    return ret
+
+    log.debug("=-==ret: %s", tool.dump(ret))
+    ret = build_find_data(cname, ret)
+    return ret[1]
 end
 
 function M.find(cname, selector, field_selector)
@@ -118,7 +127,7 @@ function M.find(cname, selector, field_selector)
     local sql = string.format("select %s from %s where %s", field_selector_str, cname, selector_str)
     local ret = db:query(sql)
     for k, v in pairs(ret) do
-        ret[k] = build_find_data(v)
+        ret[k] = build_find_data(cname, v)
     end
     return ret
 end
@@ -164,7 +173,10 @@ function M.update(cname, selector, field_selector)
     local field_selector_str = build_selector(field_selector)
 
     local sql = string.format("update %s set %s where %s", cname, field_selector_str, selector_str)
+    log.debug("sql: " .. sql)
     local ret = db:query(sql)
+
+    log.debug("update ret: " .. tool.dump(ret))
     return ret
 end
 
@@ -230,7 +242,9 @@ function M.insert(cname, data)
 
     local field_str, value_str = build_insert_data(data)
     local sql = string.format("insert into %s(%s)values(%s)", cname, field_str, value_str)
+    log.debug("sql: %s", sql)
     local ret = db:query(sql)
+    log.debug("ret: %s", tool.dump(ret))
     return ret
 end
 

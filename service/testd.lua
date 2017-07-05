@@ -1,5 +1,6 @@
 local skynet = require "skynet"
 local log = require "log"
+local tool = require "tool"
 
 local function testmysql()
     local mysql = require "mysqldb"
@@ -22,6 +23,19 @@ local function testmysql()
        }
     }
     mysql.replace("test", data)
+
+
+    --data.id = 10
+    --mysql.insert("test", data)
+
+
+    data.name = "update"
+    data.id = nil
+    mysql.update("test", {id=1}, data)
+
+
+    local ret = mysql.findOne("test", {id=1})
+    log.debug("===test ==ret: %s", tool.dump(ret))
 end
 
 skynet.start(function()
