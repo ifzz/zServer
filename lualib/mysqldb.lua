@@ -122,13 +122,12 @@ end
 
 function M.find(cname, selector, field_selector)
     local selector_str = build_selector(selector)
-    local field_selector_str = build_selector(field_selector)
+    local field_selector_str = build_field_selector(field_selector)
 
     local sql = string.format("select %s from %s where %s", field_selector_str, cname, selector_str)
     local ret = db:query(sql)
-    for k, v in pairs(ret) do
-        ret[k] = build_find_data(cname, v)
-    end
+    log.debug("=-==ret: %s", tool.dump(ret) .. " sql: " .. sql)
+    ret = build_find_data(cname, ret)
     return ret
 end
 

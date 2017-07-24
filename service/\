@@ -1,0 +1,12 @@
+local skynet = require "skynet"
+
+
+skynet.start(function()
+
+    local p = skynet.queryservice(true, "monitord")
+    skynet.call(p, "lua", "WATCH", skynet.queryservice("testd"))
+
+    skynet.dispatch("lua", function(session, source, cmd, subcmd, ...)
+        print("cmd: " .. cmd)
+	end) 
+end)

@@ -2,9 +2,8 @@ local skynet = require "skynet"
 local log = require "log"
 
 local runconf = require(skynet.getenv("runconfig"))
-local nodeconf = runconf[skynet.getenv("nodename")]
-
-local MAX_LOGIN_NUM = nodeconf.login_num
+local servconf = runconf.service
+local MAX_LOGIN_NUM = #servconf.login
 
 local M = {}
 
@@ -12,7 +11,7 @@ local login = {}
 local function init()
     log.debug("init liblogin")
     for i = 1, MAX_LOGIN_NUM do
-        login[i] = string.format(".logind%d", i)
+        login[i] = string.format("logind%d", i)
     end
 end
 

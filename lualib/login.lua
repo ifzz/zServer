@@ -26,6 +26,10 @@ end
 
 function M.login(msg)
     local account = msg.account
+	if not account then
+		print("login not account: " .. tool.dump(msg))
+        return false
+	end
     local password = msg.password
     local ret = dbproxy.findOne(nil, "account", {account=account})
     if ret and ret.password == password then

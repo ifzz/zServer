@@ -151,4 +151,3 @@ skynet.start(function()
 	end)
 	gate = skynet.newservice("wsgate")
 end)
-

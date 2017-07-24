@@ -10,7 +10,7 @@ bootstrap = "snlua bootstrap"
 
 runconfig = "runconfig"
 
-nodename = "node1"
+nodename = "node2"
 
 --logger = "logd"
 --logservice = "snlua"

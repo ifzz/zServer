@@ -13,7 +13,7 @@ local agentpool = ...
 ---------------------------socket数据处理----------------------------
 local sock_handler = {}
 sock_handler.login = function (fd, msg)
-
+	
     msg.fd = fd
     msg.watchdog = skynet.self()
 
@@ -29,9 +29,11 @@ sock_handler.login = function (fd, msg)
                     })
         
         log.log("verify account %s success!", msg.account)
+	else
+		SOCKET.send(fd, "login", {ret=ret})
+		skynet.call(gate,"lua","kick",fd)
+		log.log("verify account %s fail!")
     end
-
-	SOCKET.send(fd, "login", {ret=ret})
 end
 
 sock_handler.register = function (fd, msg)

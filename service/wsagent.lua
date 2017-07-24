@@ -6,6 +6,7 @@ local env = require "env"
 
 require "libstring"
 require "agent.agent_init"
+local libcenter = require "libcenter"
 
 local CMD = {}
 
@@ -28,7 +29,7 @@ function default_dispatch(cmd, msg)
 
     local isok, ret = pcall(cb, msg)
     if not isok then
-        log.error("handle msg error, cmd = %s, str = %s", cmd, str)
+        log.error("handle msg error, cmd = %s, str = %s, err=%s", cmd, str, ret)
         return
     end
     return ret 
@@ -51,8 +52,10 @@ function dispatch(_, _, str)
     local length = #cmdlist
     local ret
     if length == 2 then
+		skynet.error("dispatch length == 2")
         ret = service_dispatch(cmdlist[1], cmdlist[2], msg)
     elseif length == 1 then
+		skynet.error("dispatch length == 1")
         ret = default_dispatch(cmd, msg)
     end
     if ret then
@@ -75,8 +78,12 @@ function CMD.start(conf)
 	skynet.call(gate,"lua","forward",fd)
 
     env.login(account)
-
-    skynet.error("agent login")
+	local data = {
+		node = skynet.getenv("nodename"),
+		agent = skynet.self()
+	}
+	libcenter.register_agent(account.uid, data)
+    skynet.error("agent login "..account.uid)
 end
 
 function CMD.disconnect()
@@ -91,11 +98,10 @@ function CMD.send(msg)
 	websocket:send_text(fd, data)
 end
 
+
 skynet.start(function()
 	skynet.dispatch("lua",function(_,_,cmd,...)
 		local f = CMD[cmd]
 		skynet.ret(skynet.pack(f(...)))
 	end)
 end)
-
-

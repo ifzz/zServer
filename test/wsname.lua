@@ -67,15 +67,11 @@ send_request("login", {account="2", password="11111"})
 
 while true do
 	dispatch_package()
-	local cmd = socket.readstdin()
-	if cmd then
-		if cmd == "quit" then
-			send_request("quit")
-		else
-			send_request("get", { what = cmd })
-		end
+	local msg = socket.readstdin()
+	if msg then
+		send_request("set_name", { str = msg })
 	else
-		socket.usleep(100)
+		socket.usleep(2000)
 	end
 end
 

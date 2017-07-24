@@ -2,17 +2,16 @@ local skynet = require "skynet"
 local log = require "log"
 
 local runconf = require(skynet.getenv("runconfig"))
-local nodeconf = runconf[skynet.getenv("nodename")]
-
-local MAX_DBPROXY_COUNT = nodeconf.dbproxy_num
+local servconf = runconf.service
+local MAX_DBPROXY_COUNT = #servconf.dbproxy
 
 local M = {}
-
 local dbproxy = {}
+
 local function init()
     log.debug("init libdbproxy")
     for i = 1, MAX_DBPROXY_COUNT do
-        dbproxy[i] = string.format(".dbproxyd%d", i) 
+        dbproxy[i] = string.format("dbproxyd%d", i) 
     end
 end
 
@@ -44,10 +43,10 @@ function M.find(key, cname, selector, field_selector)
     return skynet.call(db, "lua", "find", cname, selector, field_selector)
 end
 
-function M.update(key, cname, selector, update)
+function M.update(key, cname, selector, update, upsert)
     local db = fetch_dbproxy(key)
     assert(db)
-    return skynet.call(db, "lua", "update", cname, selector, field_selector)
+    return skynet.call(db, "lua", "update", cname, selector, update, upsert)
 end
 
 function M.insert(key, cname, data)

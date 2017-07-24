@@ -108,8 +108,8 @@ local protection = {
     reload = true,
 }
 
-local change_func = {}
-local visited_sig = {}
+local change_func = nil
+local visited_sig = nil
 local update_obj
 local update_function
 local update_table
@@ -132,6 +132,7 @@ function update_upvalue(old_func, new_func, name, deep)
             debug.setupvalue(new_func, i, _ENV)
         else
             if old_exist_name[name] then
+                --print("=== name: " .. name)
                 local old_value = old_upvalue[name]
                 if type(old_value) ~= type(value) then
                     debug.setupvalue(new_func, i, old_value)
@@ -148,12 +149,31 @@ function update_upvalue(old_func, new_func, name, deep)
     end
 end
 
-function update_table(old_table, new_table, name, deep)
-    if protection[old_table] or protection[new_table] then return end
-    if old_table == new_table then return end
-    local signature = tostring(old_table) .. tostring(new_table)
+function update_function(old_func, new_func, name, deep)
+    if protection[old_func] or protection[new_func] then return end
+    if old_func == new_func then return end
+    local signature = tostring(old_func) .. tostring(new_func)
     if visited_sig[signature] then return end
     visited_sig[signature] = true
+
+    --print("update function name: " .. name)
+
+    update_upvalue(old_func, new_func, name, deep)
+    change_func[old_func] = new_func
+end
+
+function update_table(old_table, new_table, name, deep)
+
+    --print("==== test update table name: " .. name)
+
+    if protection[old_table] or protection[new_table] then return end
+    if old_table == new_table then print("table is same") return end
+
+    local signature = tostring(old_table) .. tostring(new_table)
+    if visited_sig[signature] then print("==11xxx==") return end
+    visited_sig[signature] = true
+
+    --print("update table name: " .. name)
 
     for name, value in pairs(new_table) do
         local old_value = old_table[name]
@@ -182,6 +202,7 @@ end
 function update_obj(old_obj, new_obj, name, deep)
     if type(old_obj) == type(new_obj) then
         if type(old_obj) == "table" then
+            --print("=== update obj name: " .. name)
             update_table(old_obj, new_obj, name, deep)
         elseif type(old_obj) == "function" then
             update_function(old_obj, new_obj, name, deep)
@@ -231,7 +252,7 @@ end
 
 local function travel_all()
     local visited = {}
-    visited[reload] = true
+    visited.reload = true
     local function f(t)
         if type(t) ~= "function" and type(t) ~= "table" then return end
         if visited[t] then return end
@@ -252,6 +273,7 @@ local function travel_all()
                 if type(v) == "function" then
                     if change_func[v] then
                         t[k] = change_func[v]
+                        --print("=== travel all k: " .. k)
                     end
                 end
                 if type(k) == "fuction" then
@@ -275,7 +297,15 @@ local function travel_all()
     end
 end
 
+local function init()
+    change_func = {}
+    visited_sig = {}
+end
+
+
 function reload.loadmod(mod)
+    init()
+
     local ret, func, obj = loadmod(mod, _ENV)
     if not ret then
         return false, "load mod false"
@@ -283,7 +313,11 @@ function reload.loadmod(mod)
     return obj
 end
 
+
+
 function reload.reload(mod)
+    init()
+
     local old_obj = package.loaded[mod]
     if not old_obj then
         return false, "mod not found"
@@ -294,16 +328,22 @@ function reload.reload(mod)
         return false, "load mod false"
     end
 
+    --print("===111===")
     update_obj(old_obj, new_obj, "reload", "")
+    --print("===2222===")
+
+
     for name, value in pairs(sandbox_mods) do
         local old_value = package.loaded[name]
         update_obj(old_value, value, name, "")
+        --print("reload mod: " .. name)
     end
 
     setmetatable(env, nil)
     update_obj(_ENV, env, "ENV", "")
-
+    --print("trave all =====")
     travel_all()
+    --print("trave all ggg=====")
     return true
 end
 

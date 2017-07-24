@@ -35,12 +35,26 @@ local function testmysql()
 
 
     local ret = mysql.findOne("test", {id=1})
-    log.debug("===test ==ret: %s", tool.dump(ret))
+    log.debug("findOne ret: %s", tool.dump(ret))
+
+
+    local ret = mysql.findOne("test", {name="test"}, {"id", "tname"})
+    log.debug("findOne ret: %s", tool.dump(ret))
+
+    local ret = mysql.find("test", {name="test"})
+    log.debug("find ret: %s", tool.dump(ret))
+
+    local ret = mysql.find("test", {name="test"}, {"id", "tname"})
+    log.debug("find select ret: %s", tool.dump(ret))
+
+    local ret = mysql.find("test", {name="itest"})
+    log.debug("find ret: %s", tool.dump(ret))
 end
 
 skynet.start(function()
     log.debug("start test...")
     testmysql() 
     log.debug("end test...")
-    skynet.exit()
+    --skynet.exit()
 end)
+

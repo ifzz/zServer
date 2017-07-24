@@ -24,6 +24,7 @@ end
 
 function M.update(cname, selector, update, upsert)
 	local collection = db[cname]
+	
 	collection:update(selector, update, upsert)
 	local r = db:runCommand("getLastError")
 	if r.err ~= bson.null then
@@ -34,7 +35,7 @@ function M.update(cname, selector, update, upsert)
 	if r.n <= 0 then
 		skynet.error("mongodb update "..cname.." failed")
 	end
-
+	 skynet.error("update finish")
 	return true, r.err
 end
 

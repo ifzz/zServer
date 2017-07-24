@@ -19,8 +19,8 @@ function M.find(cname, selector, field_selector)
     return db.find(cname, selector, field_selector)
 end
 
-function M.update(cname, selector, update)
-    return db.update(cname, selector, update)
+function M.update(cname, selector, update, upsert)
+    return db.update(cname, selector, update, upsert)
 end
 
 function M.insert(cname, data)

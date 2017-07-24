@@ -47,7 +47,8 @@ local function send_request(name, args)
 	session = session + 1
 	local str = request(name, args, session)
 	send_package(fd, str)
-	print("Request:", session)
+	
+	print("Request:", str)
 end
 
 
@@ -63,19 +64,17 @@ local function dispatch_package()
 	end
 end
 
-send_request("login", {account="2", password="11111"})
+
+print("your account: ")
+send_request("login", {account=4, password="11111"})
 
 while true do
 	dispatch_package()
-	local cmd = socket.readstdin()
-	if cmd then
-		if cmd == "quit" then
-			send_request("quit")
-		else
-			send_request("get", { what = cmd })
-		end
+	local msg = socket.readstdin()
+	if msg then
+		send_request("chat", { str = msg })
 	else
-		socket.usleep(100)
+		socket.usleep(2000)
 	end
 end
 
