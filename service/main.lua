@@ -84,6 +84,9 @@ skynet.start(function()
 			log.debug("start wswatchdog in port: " .. v.port) 
 		end
 	end
+	--room_mgr
+	
+	
 	--测试
     --skynet.uniqueservice("testd")
 	--skynet.newservice("exitd")

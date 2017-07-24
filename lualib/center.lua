@@ -12,6 +12,12 @@ local users = {}
 --	agent （register_agent之后）
 --	node  （register_agent之后）	
 --}
+local rooms = {}
+--rooms[id]={
+--	room
+--	node
+--}
+
 
 function M.login(uid, data)
     local user = users[uid]
@@ -35,6 +41,16 @@ end
 
 --register_agent
 function M.register_agent(uid, data)
+	if not users[uid] then
+		return false
+	end
+	log.debug("center register_agent: " .. uid.." "..data.agent)
+	users[uid].agent = data.agent
+	users[uid].node = data.node
+end
+
+--register_room
+function M.register_room(id, data)
 	if not users[uid] then
 		return false
 	end

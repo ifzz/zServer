@@ -132,7 +132,6 @@ function update_upvalue(old_func, new_func, name, deep)
             debug.setupvalue(new_func, i, _ENV)
         else
             if old_exist_name[name] then
-                --print("=== name: " .. name)
                 local old_value = old_upvalue[name]
                 if type(old_value) ~= type(value) then
                     debug.setupvalue(new_func, i, old_value)
@@ -156,7 +155,6 @@ function update_function(old_func, new_func, name, deep)
     if visited_sig[signature] then return end
     visited_sig[signature] = true
 
-    --print("update function name: " .. name)
 
     update_upvalue(old_func, new_func, name, deep)
     change_func[old_func] = new_func
@@ -164,16 +162,14 @@ end
 
 function update_table(old_table, new_table, name, deep)
 
-    --print("==== test update table name: " .. name)
 
     if protection[old_table] or protection[new_table] then return end
-    if old_table == new_table then print("table is same") return end
+    if old_table == new_table then return end
 
     local signature = tostring(old_table) .. tostring(new_table)
-    if visited_sig[signature] then print("==11xxx==") return end
+    if visited_sig[signature] then return end
     visited_sig[signature] = true
 
-    --print("update table name: " .. name)
 
     for name, value in pairs(new_table) do
         local old_value = old_table[name]
@@ -202,7 +198,6 @@ end
 function update_obj(old_obj, new_obj, name, deep)
     if type(old_obj) == type(new_obj) then
         if type(old_obj) == "table" then
-            --print("=== update obj name: " .. name)
             update_table(old_obj, new_obj, name, deep)
         elseif type(old_obj) == "function" then
             update_function(old_obj, new_obj, name, deep)
@@ -273,7 +268,6 @@ local function travel_all()
                 if type(v) == "function" then
                     if change_func[v] then
                         t[k] = change_func[v]
-                        --print("=== travel all k: " .. k)
                     end
                 end
                 if type(k) == "fuction" then
@@ -328,22 +322,17 @@ function reload.reload(mod)
         return false, "load mod false"
     end
 
-    --print("===111===")
     update_obj(old_obj, new_obj, "reload", "")
-    --print("===2222===")
 
 
     for name, value in pairs(sandbox_mods) do
         local old_value = package.loaded[name]
         update_obj(old_value, value, name, "")
-        --print("reload mod: " .. name)
     end
 
     setmetatable(env, nil)
     update_obj(_ENV, env, "ENV", "")
-    --print("trave all =====")
     travel_all()
-    --print("trave all ggg=====")
     return true
 end
 

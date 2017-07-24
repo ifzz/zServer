@@ -6,6 +6,7 @@ local libcenter = require "libcenter"
 local M = env.dispatch
 
 function M.enter_room(msg)
+	--{id=1,2,3}
     local service = skynet.call(".room_mgr", "lua", "enter", msg)
     env.service["room"] = service  
 end
@@ -42,14 +43,17 @@ function M.set_name(msg)
 end
 
 	
+local count = 0
 	
 --Ê¾Àý3 chat
-function env.dispatch.chat(msg)
+function M.chat(msg)
     local cmd = msg.cmd
 	local str = msg.str
 	libcenter.broadcast(env.get_player().uid, "broadcast_msg", msg)
-	skynet.error("===agent chat 666! "..cmd.." "..str)
+	skynet.error("agent chat 1111999! "..cmd.." "..str)
 	
+    count = count + 1
+    skynet.error("count === " .. count)
 	
 	return nil
 end

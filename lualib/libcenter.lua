@@ -40,6 +40,13 @@ function M.register_agent(uid, data)
     return skynet.call(centerd, "lua", "register_agent", uid, data)
 end
 
+--register_room
+function M.register_room(id, data)
+    local centerd = fetch_centerd(id)
+    assert(centerd)
+    return skynet.call(centerd, "lua", "register_room", id, data)
+end
+
 --broadcast msg to all centers
 function M.broadcast(uid, cmd, data)
 	for i = 1, MAX_CENTER_COUNT do
